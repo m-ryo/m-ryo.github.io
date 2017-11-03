@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <title>Voice Recognition Client</title>
+</head>
+<body>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 
 <style type="text/css">
@@ -11,7 +13,7 @@ width:100%;
 line-height:1.25em;
 }
 </style>
-<body>
+
 <h1>Voice Recognition HTTP Client</h1>
 
 ・Recognition Result
@@ -26,7 +28,7 @@ line-height:1.25em;
 <select id="select_language" onchange="updateCountry()"></select>
 <br /><br />
 
-・Server Address 
+・Server Address
 <br />
 <textarea id="server_url" rows="1" onkeypress="if(event.keyCode==13){event.returnValue=false}">
 http://127.0.0.1:25000/</textarea>
@@ -279,5 +281,5 @@ function updateCountry() {
     }
   }
 </script>
-</head>
+
 </html>
