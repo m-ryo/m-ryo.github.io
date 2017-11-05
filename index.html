@@ -284,9 +284,9 @@
             // 接続テスト
             try {
                 var connection = new WebSocket('ws://127.0.0.1:9090/', ['soap', 'xmpp']);
-                connection.onopen = function () {
+                /*connection.onopen = function () {
                     connection.send('test text send'); // Send the message 'Ping' to the server
-                };
+                };*/
                 connection.onmessage = function (e) {
                     console.log('Server: ' + e.data);
                 };
