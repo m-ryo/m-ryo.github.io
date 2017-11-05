@@ -132,7 +132,7 @@
 
     var final_transcript = '';
     var recognizing = false;
-    var ignore_onend;
+    var ignore_onend = false;
 
     var recognition = new webkitSpeechRecognition();
 
@@ -281,6 +281,8 @@
         document.getElementById('select_language').selectedIndex = 1;
         updateCountry();
         console.log(lang);
+
+        startButton(event);
 
         if(btn.value === "Connect WebSoc") {
             btn.value = "Connecting";
