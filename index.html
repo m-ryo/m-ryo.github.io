@@ -24,11 +24,11 @@
 
     ・Server Address (HTTP cpnnection)<br />
     <textarea id="http_url" rows="1" onkeypress="if(event.keyCode == 13){event.returnValue = false}">http://127.0.0.1:25000/</textarea><br />
-    <input type="button" id="http_btn" onclick="connect_http(this)" value="Connect" /><br />
+    <input type="button" id="http_btn" onclick="connect_http(this)" value="Connect HTTP" /><br />
 
     ・Server Address (Web Socket connection)<br />
     <textarea id="ws_url" rows="1" onkeypress="if(event.keyCode == 13){event.returnValue = false}">ws://127.0.0.1:24000/</textarea><br />
-    <input type="button" id="ws_btn" onclick="connect_ws(this)" value="Connect" /><br />
+    <input type="button" id="ws_btn" onclick="connect_ws(this)" value="Connect Web" /><br />
 </body>
 
 <script>
@@ -237,7 +237,7 @@
     }
 
     function connect_http(btn){
-        if(btn.value === "Connect") {
+        if(btn.value === "Connect HTTP") {
             btn.value = "Connecting";
             http_url = document.getElementById('http_url').value.trim();
 
@@ -277,7 +277,7 @@
     }
 
     function connect_ws(btn){
-        if(btn.value === "Connect") {
+        if(btn.value === "Connect Web") {
             btn.value = "Connecting";
             ws_url = document.getElementById('ws_url').value.trim();
 
