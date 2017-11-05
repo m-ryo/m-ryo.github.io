@@ -35,6 +35,7 @@
     var lang = 'ja-JP';
     var langs =
     [['日本語',          ['ja-JP']],
+     ['English(United States)',       ['en-US']],
      ['Afrikaans',       ['af-ZA']],
      ['Bahasa Indonesia',['id-ID']],
      ['Bahasa Melayu',   ['ms-MY']],
@@ -48,7 +49,6 @@
      ['English(New Zealand)',         ['en-NZ']],
      ['English(South Africa)',        ['en-ZA']],
      ['English(United Kingdom)',      ['en-GB']],
-     ['English(United States)',       ['en-US']],
      ['Español(Argentina)',           ['es-AR']],
      ['Español(Bolivia)',             ['es-BO']],
      ['Español(Chile)',               ['es-CL']],
@@ -278,7 +278,7 @@
 
     function connect_ws(btn){
 
-        document.getElementById('select_language').selectedIndex = 'English(United States)';
+        document.getElementById('select_language').selectedIndex = 1;
 
         if(btn.value === "Connect WebSoc") {
             btn.value = "Connecting";
