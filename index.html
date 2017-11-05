@@ -27,8 +27,8 @@
     <input type="button" id="http_btn" onclick="connect_http(this)" value="Connect HTTP" /><br />
 
     ・Server Address (Web Socket connection)<br />
-    <textarea id="ws_url" rows="1" onkeypress="if(event.keyCode == 13){event.returnValue = false}">ws://127.0.0.1:24000/</textarea><br />
-    <input type="button" id="ws_btn" onclick="connect_ws(this)" value="Connect Web" /><br />
+    <textarea id="ws_url" rows="1" onkeypress="if(event.keyCode == 13){event.returnValue = false}">ws://127.0.0.1:24000/ws</textarea><br />
+    <input type="button" id="ws_btn" onclick="connect_ws(this)" value="Connect WebSocket" /><br />
 </body>
 
 <script>
@@ -125,7 +125,7 @@
 
     var xhr = null;
     var http_url    = "http://127.0.0.1:12000/";
-    var ws_url      = "ws://127.0.0.1:24000/";
+    var ws_url      = "ws://127.0.0.1:24000/ws";
     var flag_connection = false;
 
     var recognition = null;
@@ -248,21 +248,21 @@
                     alert("onerror: Connect Error");
                     xhr = null;
                     flag_connection = false;
-                    btn.value = "Connect";
+                    btn.value = "Connect HTTP";
                 };
                 xhr.open('GET', http_url);
                 xhr.send(null);
                 xhr.abort();
 
                 flag_connection = true;
-                btn.value = "Disconnect";
+                btn.value = "Disconnect HTTP";
                 $("#http_url").prop('disabled', true);
             } catch(error) {
                 alert("Connect Error: Check server address");
                 console.log("Connect Error: Check server address");
                 xhr = null;
                 flag_connection = false;
-                btn.value = "Connect";
+                btn.value = "Connect HTTP";
                 $("#http_url").prop('disabled', false);
             }
         } else {
@@ -271,45 +271,45 @@
                 xhr = null;
             }
             flag_connection = false;
-            btn.value = "Connect";
+            btn.value = "Connect HTTP";
             $("#http_url").prop('disabled', false);
         }
     }
 
     function connect_ws(btn){
-        if(btn.value === "Connect Web") {
+
+        document.getElementById('select_language').selectedIndex = 'English(United States)';
+
+        if(btn.value === "Connect WebSoc") {
             btn.value = "Connecting";
             ws_url = document.getElementById('ws_url').value.trim();
 
             // 接続テスト
             try {
-                var connection = new WebSocket('ws://127.0.0.1:9090/');
+                var connection = new WebSocket(ws_url);
+                // 接続時
                 /*connection.onopen = function () {
                     connection.send('test text send'); // Send the message 'Ping' to the server
                 };*/
+                // サーバからのメッセージ受信
                 connection.onmessage = function (e) {
                     console.log('Server: ' + e.data);
                 };
-                xhr = null;
 
                 flag_connection = true;
-                btn.value = "Disconnect";
+                btn.value = "Disconnect WebSocket";
                 $("#ws_url").prop('disabled', true);
             } catch(error) {
                 alert("Connect Error: Check server address");
                 console.log("Connect Error: Check server address");
-                xhr = null;
+                ws = null;
                 flag_connection = false;
-                btn.value = "Connect";
+                btn.value = "Connect WebSocket";
                 $("#ws_url").prop('disabled', false);
             }
         } else {
-            if(xhr != null) {
-                xhr.abort();
-                xhr = null;
-            }
             flag_connection = false;
-            btn.value = "Connect";
+            btn.value = "Connect WebSocket";
             $("#ws_url").prop('disabled', false);
         }
     }
