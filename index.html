@@ -287,6 +287,9 @@
                 connection.onopen = function () {
                     connection.send('test text send'); // Send the message 'Ping' to the server
                 };
+                connection.onmessage = function (e) {
+                    console.log('Server: ' + e.data);
+                };
                 xhr = null;
 
                 flag_connection = true;
