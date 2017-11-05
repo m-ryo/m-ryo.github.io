@@ -308,7 +308,7 @@
 
             // 接続テスト
             try {
-                ws = new WebSocket("ws://127.0.0.1:24000/ws");
+                ws = new WebSocket(ws_url);
                 // 接続時
                 /*ws.onopen = function () {
                     ws.send('test text send'); // Send the message 'Ping' to the server
@@ -345,6 +345,7 @@
             }
         } else {
             if(ws != null){
+                ws.close();
                 ws = null;
             }
             flag_wsconnection = false;
