@@ -126,7 +126,8 @@
     var xhr = null;
     var http_url    = "http://127.0.0.1:12000/";
     var ws_url      = "ws://127.0.0.1:24000/ws";
-    var flag_connection = false;
+    var flag_httpconnection = false;
+    var flag_wsconnection = false;
 
     var recognition = null;
 
@@ -185,15 +186,14 @@
                 confidence = event.results[i][0].confidence;
                 $("#result_text").val(final_transcript + "\n\n" + confidence);
 
-                // workerにshitahougaii?
-                if(flag_connection) {
+                if(flag_httpconnection) {
                     try {
                         if(xhr == null) {
                             xhr = new XMLHttpRequest();
                             xhr.onerror = function(e){
                                 alert("onerror: Send Error");
                                 xhr = null;
-                                flag_connection = false;
+                                flag_httpconnection = false;
                                 document.getElementById("http_btn").value = "Connect";
                                 $("#http_url").prop('disabled', false);
                             };
@@ -206,9 +206,33 @@
                         alert("Send Error");
                         console.log("Send Error");
                         xhr = null;
-                        flag_connection = false;
+                        flag_httpconnection = false;
                         document.getElementById("http_btn").value = "Connect";
                         $("#http_url").prop('disabled', false);
+                    }
+                }
+                else if(flag_wsconnection){
+                    try {
+                        if(ws == null) {
+                            ws = new WebSocket(ws_url);
+                            // 接続時
+                            /*ws.onopen = function () {
+                                ws.send('test text send'); // Send the message 'Ping' to the server
+                            };*/
+                            // サーバからのメッセージ受信
+                            ws.onmessage = function (e) {
+                                console.log('Server: ' + e.data);
+                            };
+                        }
+
+                        ws.send(final_transcript);
+                    } catch(error) {
+                        alert("Send Error");
+                        console.log("Send Error");
+                        ws = null;
+                        flag_wsconnection = false;
+                        document.getElementById("ws_btn").value = "Connect WebSocket";
+                        $("#ws_url").prop('disabled', false);
                     }
                 }
             }
@@ -247,21 +271,21 @@
                 xhr.onerror = function(e){
                     alert("onerror: Connect Error");
                     xhr = null;
-                    flag_connection = false;
+                    flag_httpconnection = false;
                     btn.value = "Connect HTTP";
                 };
                 xhr.open('GET', http_url);
                 xhr.send(null);
                 xhr.abort();
 
-                flag_connection = true;
+                flag_httpconnection = true;
                 btn.value = "Disconnect HTTP";
                 $("#http_url").prop('disabled', true);
             } catch(error) {
                 alert("Connect Error: Check server address");
                 console.log("Connect Error: Check server address");
                 xhr = null;
-                flag_connection = false;
+                flag_httpconnection = false;
                 btn.value = "Connect HTTP";
                 $("#http_url").prop('disabled', false);
             }
@@ -270,7 +294,7 @@
                 xhr.abort();
                 xhr = null;
             }
-            flag_connection = false;
+            flag_httpconnection = false;
             btn.value = "Connect HTTP";
             $("#http_url").prop('disabled', false);
         }
@@ -278,41 +302,52 @@
 
     function connect_ws(btn){
 
-        document.getElementById('select_language').selectedIndex = 1;
-        updateCountry();
-        console.log(lang);
-
-        startButton(event);
-
-        if(btn.value === "Connect WebSoc") {
+        if(btn.value === "Connect WebSocket") {
             btn.value = "Connecting";
             ws_url = document.getElementById('ws_url').value.trim();
 
             // 接続テスト
             try {
-                var connection = new WebSocket(ws_url);
+                ws = new WebSocket(ws_url);
                 // 接続時
-                /*connection.onopen = function () {
-                    connection.send('test text send'); // Send the message 'Ping' to the server
+                /*ws.onopen = function () {
+                    ws.send('test text send'); // Send the message 'Ping' to the server
                 };*/
                 // サーバからのメッセージ受信
-                connection.onmessage = function (e) {
+                ws.onmessage = function (e) {
                     console.log('Server: ' + e.data);
+                    if(e.data === "en"){
+                        document.getElementById('select_language').selectedIndex = 1;
+                        updateCountry();
+                        console.log(lang);
+
+                        startButton(event);
+                    }
+                    else if(e.data === "jp"){
+                        document.getElementById('select_language').selectedIndex = 0;
+                        updateCountry();
+                        console.log(lang);
+
+                        startButton(event);
+                    }
                 };
 
-                flag_connection = true;
+                flag_wsconnection = true;
                 btn.value = "Disconnect WebSocket";
                 $("#ws_url").prop('disabled', true);
             } catch(error) {
                 alert("Connect Error: Check server address");
                 console.log("Connect Error: Check server address");
                 ws = null;
-                flag_connection = false;
+                flag_wsconnection = false;
                 btn.value = "Connect WebSocket";
                 $("#ws_url").prop('disabled', false);
             }
         } else {
-            flag_connection = false;
+            if(ws != null){
+                ws = null;
+            }
+            flag_wsconnection = false;
             btn.value = "Connect WebSocket";
             $("#ws_url").prop('disabled', false);
         }
