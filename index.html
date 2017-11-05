@@ -144,6 +144,62 @@
         recognizing = true;
     };
 
+    recognition.onaudiostart = function() {
+        console.log('Audio capturing started');
+        if(flag_wsconnection){
+            try {
+                if(ws == null) {
+                    ws = new WebSocket(ws_url);
+                    // 接続時
+                    /*ws.onopen = function () {
+                        ws.send('test text send'); // Send the message 'Ping' to the server
+                    };*/
+                    // サーバからのメッセージ受信
+                    ws.onmessage = function (e) {
+                        console.log('Server: ' + e.data);
+                    };
+                }
+
+                ws.send('START');
+            } catch(error) {
+                alert("Send Error");
+                console.log("Send Error");
+                ws = null;
+                flag_wsconnection = false;
+                document.getElementById("ws_btn").value = "Connect WebSocket";
+                $("#ws_url").prop('disabled', false);
+            }
+        }
+    }
+
+    recognition.onaudioend = function() {
+        console.log('Audio capturing ended');
+        if(flag_wsconnection){
+            try {
+                if(ws == null) {
+                    ws = new WebSocket(ws_url);
+                    // 接続時
+                    /*ws.onopen = function () {
+                        ws.send('test text send'); // Send the message 'Ping' to the server
+                    };*/
+                    // サーバからのメッセージ受信
+                    ws.onmessage = function (e) {
+                        console.log('Server: ' + e.data);
+                    };
+                }
+
+                ws.send('END');
+            } catch(error) {
+                alert("Send Error");
+                console.log("Send Error");
+                ws = null;
+                flag_wsconnection = false;
+                document.getElementById("ws_btn").value = "Connect WebSocket";
+                $("#ws_url").prop('disabled', false);
+            }
+        }
+    }
+
     recognition.onerror = function(event) {
         if (event.error == 'no-speech') {
             ignore_onend = true;
