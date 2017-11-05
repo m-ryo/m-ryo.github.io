@@ -22,9 +22,13 @@
     ・Language <br />
     <select id="select_language" onchange="updateCountry()"></select><br /><br />
 
-    ・Server Address<br />
-    <textarea id="server_url" rows="1" onkeypress="if(event.keyCode==13){event.returnValue=false}">http://127.0.0.1:25000/</textarea><br />
-    <input type="button" id="con_button" onclick="connect_button(this)" value="Connect" /><br />
+    ・Server Address (HTTP cpnnection)<br />
+    <textarea id="http_url" rows="1" onkeypress="if(event.keyCode == 13){event.returnValue = false}">http://127.0.0.1:25000/</textarea><br />
+    <input type="button" id="http_btn" onclick="connect_http(this)" value="Connect" /><br />
+
+    ・Server Address (Web Socket connection)<br />
+    <textarea id="ws_url" rows="1" onkeypress="if(event.keyCode == 13){event.returnValue = false}">ws://127.0.0.1:24000/<textarea><br />
+    <input type="button" id="ws_btn" onclick="connect_ws(this)" value="Connect" /><br />
 </body>
 
 <script>
@@ -120,7 +124,8 @@
     //////////
 
     var xhr = null;
-    var server_url = "http://127.0.0.1:12000/";
+    var http_url    = "http://127.0.0.1:12000/";
+    var ws_url      = "ws://127.0.0.1:24000/";
     var flag_connection = false;
 
     var recognition = null;
@@ -189,12 +194,12 @@
                                 alert("onerror: Send Error");
                                 xhr = null;
                                 flag_connection = false;
-                                document.getElementById("con_button").value = "Connect";
-                                $("#server_url").prop('disabled', false);
+                                document.getElementById("http_btn").value = "Connect";
+                                $("#http_url").prop('disabled', false);
                             };
                         }
 
-                        xhr.open('POST', server_url);
+                        xhr.open('POST', http_url);
                         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                         xhr.send(final_transcript);
                     } catch(error) {
@@ -202,8 +207,8 @@
                         console.log("Send Error");
                         xhr = null;
                         flag_connection = false;
-                        document.getElementById("con_button").value = "Connect";
-                        $("#server_url").prop('disabled', false);
+                        document.getElementById("http_btn").value = "Connect";
+                        $("#http_url").prop('disabled', false);
                     }
                 }
             }
@@ -231,10 +236,10 @@
         recognition.stop();
     }
 
-    function connect_button(but){
-        if(but.value === "Connect") {
-            but.value = "Connecting";
-            server_url = document.getElementById('server_url').value.trim();
+    function connect_http(btn){
+        if(btn.value === "Connect") {
+            btn.value = "Connecting";
+            http_url = document.getElementById('http_url').value.trim();
 
             // 接続テスト
             try {
@@ -243,22 +248,22 @@
                     alert("onerror: Connect Error");
                     xhr = null;
                     flag_connection = false;
-                    but.value = "Connect";
+                    btn.value = "Connect";
                 };
-                xhr.open('GET', server_url);
+                xhr.open('GET', http_url);
                 xhr.send(null);
                 xhr.abort();
 
                 flag_connection = true;
-                but.value = "Disconnect";
-                $("#server_url").prop('disabled', true);
+                btn.value = "Disconnect";
+                $("#http_url").prop('disabled', true);
             } catch(error) {
                 alert("Connect Error: Check server address");
                 console.log("Connect Error: Check server address");
                 xhr = null;
                 flag_connection = false;
-                but.value = "Connect";
-                $("#server_url").prop('disabled', false);
+                btn.value = "Connect";
+                $("#http_url").prop('disabled', false);
             }
         } else {
             if(xhr != null) {
@@ -266,8 +271,40 @@
                 xhr = null;
             }
             flag_connection = false;
-            but.value = "Connect";
-            $("#server_url").prop('disabled', false);
+            btn.value = "Connect";
+            $("#http_url").prop('disabled', false);
+        }
+    }
+
+    function connect_ws(btn){
+        if(btn.value === "Connect") {
+            btn.value = "Connecting";
+            ws_url = document.getElementById('ws_url').value.trim();
+
+            // 接続テスト
+            try {
+                var connection = new WebSocket('ws://127.0.0.1:9090/', ['soap', 'xmpp']);
+                xhr = null;
+
+                flag_connection = true;
+                btn.value = "Disconnect";
+                $("#ws_url").prop('disabled', true);
+            } catch(error) {
+                alert("Connect Error: Check server address");
+                console.log("Connect Error: Check server address");
+                xhr = null;
+                flag_connection = false;
+                btn.value = "Connect";
+                $("#ws_url").prop('disabled', false);
+            }
+        } else {
+            if(xhr != null) {
+                xhr.abort();
+                xhr = null;
+            }
+            flag_connection = false;
+            btn.value = "Connect";
+            $("#ws_url").prop('disabled', false);
         }
     }
 </script>
