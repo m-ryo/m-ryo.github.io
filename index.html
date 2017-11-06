@@ -15,12 +15,12 @@
 
     <h1>Voice Recognition HTTP Client</h1>
 
-    <input id="recognition" type="radio" onclick="radioCheck()">Recognition<br />
+    <input id="recognition" type="checkbox" onclick="checkBoxCheck()">Recognition<br />
     ・result<br/>
     <textarea readOnly id="result_text" rows="5"></textarea><br />
     <input type="button" id="onoffbutton" onclick="startButton(event)" value="Start Recognition" /><br /><br />
 
-    <input id="vad" type="radio" onclick="radioCheck()">VAD<br /><br />
+    <input id="vad" type="checkbox" onclick="checkBoxCheck()">VAD<br /><br />
 
     ・Language <br />
     <select id="select_language" onchange="updateCountry()"></select><br /><br />
@@ -131,7 +131,7 @@
     document.getElementById('recognition').value    = true;
     document.getElementById('vad').value            = true;
 
-    function radioCheck(){
+    function checkBoxCheck(){
         flag_recognition    = document.getElementById('recognition').value;
         flag_vad            = document.getElementById('vad').value;
     }
