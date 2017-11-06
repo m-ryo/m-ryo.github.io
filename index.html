@@ -130,8 +130,8 @@
     var flag_vad            = true;
 
     function checkBoxCheck(){
-        flag_recognition    = $("#recognition").checked;
-        flag_vad            = $("#vad").checed;
+        flag_recognition    = document.getElementById('recognition').checked;
+        flag_vad            = document.getElementById('vad').checed;
         if(flag_recognition){
             console.log("recognition : OK");
         }
@@ -140,6 +140,7 @@
         }
     }
 
+    checkBoxCheck();
     //////////
 
     var xhr = null;
