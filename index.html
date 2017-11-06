@@ -15,9 +15,12 @@
 
     <h1>Voice Recognition HTTP Client</h1>
 
-    ・Recognition Result <br />
+    <input id="recognition" type="radio" onclick="radioCheck()" value=true>Recognition<br />
+    ・result<br/>
     <textarea readOnly id="result_text" rows="5"></textarea><br />
     <input type="button" id="onoffbutton" onclick="startButton(event)" value="Start Recognition" /><br /><br />
+
+    <input id="vad" type="radio" onclick="radioCheck()" value=true>VAD<br /><br />
 
     ・Language <br />
     <select id="select_language" onchange="updateCountry()"></select><br /><br />
@@ -123,6 +126,16 @@
 
     //////////
 
+    var flag_recognition    = true;
+    var flag_vad            = true;
+
+    function radioCheck(){
+        flag_recognition    = document.getElementById('recognition').value;
+        flag_vad            = document.getElementById('vad').value;
+    }
+
+    //////////
+
     var xhr = null;
     var http_url    = "http://127.0.0.1:12000/";
     var ws_url      = "ws://127.0.0.1:24000/ws";
@@ -135,67 +148,76 @@
     var recognizing = false;
     var ignore_onend = false;
 
+    var flag_audiostart = false;
+
     var recognition = new webkitSpeechRecognition();
 
     recognition.continuous = true;
     recognition.interimResults = false;
 
     recognition.onstart = function() {
-        recognizing = true;
+        if(flag_recognition){
+            recognizing = true;
+        }
     };
 
     recognition.onaudiostart = function() {
         console.log('Audio capturing started');
-        if(flag_wsconnection){
-            try {
-                if(ws == null) {
-                    ws = new WebSocket(ws_url);
-                    // 接続時
-                    /*ws.onopen = function () {
-                        ws.send('test text send'); // Send the message 'Ping' to the server
-                    };*/
-                    // サーバからのメッセージ受信
-                    ws.onmessage = function (e) {
-                        console.log('Server: ' + e.data);
-                    };
-                }
+        if(flag_vad){
+            if(flag_wsconnection){
+                try {
+                    if(ws == null) {
+                        ws = new WebSocket(ws_url);
+                        // 接続時
+                        /*ws.onopen = function () {
+                            ws.send('test text send'); // Send the message 'Ping' to the server
+                        };*/
+                        // サーバからのメッセージ受信
+                        ws.onmessage = function (e) {
+                            console.log('Server: ' + e.data);
+                        };
+                    }
 
-                ws.send('START');
-            } catch(error) {
-                alert("Send Error");
-                console.log("Send Error");
-                ws = null;
-                flag_wsconnection = false;
-                document.getElementById("ws_btn").value = "Connect WebSocket";
-                $("#ws_url").prop('disabled', false);
+                    ws.send('START');
+                } catch(error) {
+                    alert("Send Error");
+                    console.log("Send Error");
+                    ws = null;
+                    flag_wsconnection = false;
+                    document.getElementById("ws_btn").value = "Connect WebSocket";
+                    $("#ws_url").prop('disabled', false);
+                }
             }
+            flag_audiostart = true;
         }
     }
 
     recognition.onaudioend = function() {
         console.log('Audio capturing ended');
-        if(flag_wsconnection){
-            try {
-                if(ws == null) {
-                    ws = new WebSocket(ws_url);
-                    // 接続時
-                    /*ws.onopen = function () {
-                        ws.send('test text send'); // Send the message 'Ping' to the server
-                    };*/
-                    // サーバからのメッセージ受信
-                    ws.onmessage = function (e) {
-                        console.log('Server: ' + e.data);
-                    };
-                }
+        if(flag_audiostart){
+            if(flag_wsconnection){
+                try {
+                    if(ws == null) {
+                        ws = new WebSocket(ws_url);
+                        // 接続時
+                        /*ws.onopen = function () {
+                            ws.send('test text send'); // Send the message 'Ping' to the server
+                        };*/
+                        // サーバからのメッセージ受信
+                        ws.onmessage = function (e) {
+                            console.log('Server: ' + e.data);
+                        };
+                    }
 
-                ws.send('END');
-            } catch(error) {
-                alert("Send Error");
-                console.log("Send Error");
-                ws = null;
-                flag_wsconnection = false;
-                document.getElementById("ws_btn").value = "Connect WebSocket";
-                $("#ws_url").prop('disabled', false);
+                    ws.send('END');
+                } catch(error) {
+                    alert("Send Error");
+                    console.log("Send Error");
+                    ws = null;
+                    flag_wsconnection = false;
+                    document.getElementById("ws_btn").value = "Connect WebSocket";
+                    $("#ws_url").prop('disabled', false);
+                }
             }
         }
     }
