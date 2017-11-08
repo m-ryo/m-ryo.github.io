@@ -168,7 +168,7 @@
         }
     };
 
-    recognition.onaudiostart = function() {
+    recognition.onsoundstart = function() {
         console.log('Audio capturing started');
         if(flag_vad){
             if(flag_wsconnection){
@@ -199,7 +199,7 @@
         }
     }
 
-    recognition.onaudioend = function() {
+    recognition.onsoundend = function() {
         console.log('Audio capturing ended');
         if(flag_audiostart){
             if(flag_wsconnection){
