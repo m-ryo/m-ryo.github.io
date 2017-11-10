@@ -108,16 +108,147 @@ function checkBoxCheck(){
 
 var xhr = null;
 var http_url    = "http://127.0.0.1:25000/";
-var flag_httpconnection = false;
+
+function http_connect(){
+    http_url = document.getElementById('http_url').value.trim();
+
+    // 接続テスト
+    try {
+        xhr = new XMLHttpRequest();
+        xhr.onerror = function(e){
+            alert("onerror: Connect Error");
+            xhr = null;
+            btn.value = "Connect HTTP";
+        };
+        xhr.open('GET', http_url);
+        xhr.send(null);
+        xhr.abort();
+
+        btn.value = "Disconnect HTTP";
+        $("#http_url").prop('disabled', true);
+        return true;
+    } catch(error) {
+        alert("Connect Error: Check server address");
+        console.log("Connect Error: Check server address");
+        http_disconnect();
+        return false;
+    }
+}
+
+function http_disconnect(){
+    if(xhr != null) {
+        xhr.abort();
+        xhr = null;
+    }
+    btn.value = "Connect HTTP";
+    $("#http_url").prop('disabled', false);
+}
+
+function http_set(btn){
+    if(btn.value === "Connect HTTP") {
+        btn.value = "Connecting";
+        http_connect();
+    } else {
+        http_disconnect();
+    }
+}
+
+function checkHTTPConnect(){
+    // Connecting
+    if(document.getElementById('http_btn').value == "Disconnect HTTP"){
+        if(xhr == null){
+            return http_connect();
+        }
+        return true;
+    }
+    // not connect
+    else{
+        http_disconnect();
+        return false;
+    }
+}
+
 
 var ws = null;
 var ws_url      = "ws://127.0.0.1:24000/ws";
-var flag_wsconnection = false;
+
+function ws_connect(){
+    ws_url = document.getElementById('ws_url').value.trim();
+
+    // 接続テスト
+    try {
+        ws = new WebSocket(ws_url);
+        // 接続時
+        /*ws.onopen = function () {
+            ws.send('test text send'); // Send the message 'Ping' to the server
+        };*/
+        // サーバからのメッセージ受信
+        ws.onmessage = function (e) {
+            console.log('Server: ' + e.data);
+            if(e.data === "en"){
+                document.getElementById('select_language').selectedIndex = 1;
+                updateCountry();
+                console.log(lang);
+
+                startButton(event);
+            }
+            else if(e.data === "jp"){
+                document.getElementById('select_language').selectedIndex = 0;
+                updateCountry();
+                console.log(lang);
+
+                startButton(event);
+            }
+        };
+
+        btn.value = "Disconnect WebSocket";
+        $("#ws_url").prop('disabled', true);
+        return true;
+    } catch(error) {
+        alert("Connect Error: Check server address");
+        console.log("Connect Error: Check server address");
+        ws_disconnect();
+        return false;
+    }
+}
+
+function ws_disconnect(){
+    if(ws != null){
+        ws.close();
+        ws = null;
+    }
+    btn.value = "Connect WebSocket";
+    $("#ws_url").prop('disabled', false);
+}
+
+function ws_set(btn){
+    if(btn.value === "Connect WebSocket") {
+        btn.value = "Connecting";
+        ws_connect();
+    } else {
+        ws_disconnect();
+    }
+}
+
+function checkWSConnect(){
+    // Connecting
+    if(document.getElementById('ws_btn').value == "Disconnect WebSocket"){
+        if(ws == null){
+            return ws_connect();
+        }
+        return true;
+    }
+    // not connect
+    else{
+        ws_disconnect();
+        return false;
+    }
+}
+
 
 var final_transcript = '';
 var recognizing = false;
 var ignore_onend = false;
-var flag_audiostart = false;
 
 var recognition = new webkitSpeechRecognition();
 
@@ -133,59 +264,50 @@ recognition.onstart = function() {
 recognition.onsoundstart = function() {
     console.log('Audio capturing started');
     if(flag_vad){
-        if(flag_wsconnection){
+        if(checkHTTPConnect()){
             try {
-                if(ws == null) {
-                    ws = new WebSocket(ws_url);
-                    // 接続時
-                    /*ws.onopen = function () {
-                        ws.send('test text send'); // Send the message 'Ping' to the server
-                    };*/
-                    // サーバからのメッセージ受信
-                    ws.onmessage = function (e) {
-                        console.log('Server: ' + e.data);
-                    };
-                }
-
+                xhr.open('POST', http_url);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.send('START');
+            } catch(error) {
+                alert("Send Error");
+                console.log("Send Error");
+                http_disconnect();
+            }
+        }
+        if(checkWSConnect()){
+            try {
                 ws.send('START');
             } catch(error) {
                 alert("Send Error");
                 console.log("Send Error");
-                ws = null;
-                flag_wsconnection = false;
-                document.getElementById("ws_btn").value = "Connect WebSocket";
-                $("#ws_url").prop('disabled', false);
+                ws_disconnect();
             }
         }
-        flag_audiostart = true;
     }
 }
 
 recognition.onsoundend = function() {
     console.log('Audio capturing ended');
-    if(flag_audiostart){
-        if(flag_wsconnection){
+    if(flag_vad){
+        if(checkHTTPConnect()){
             try {
-                if(ws == null) {
-                    ws = new WebSocket(ws_url);
-                    // 接続時
-                    /*ws.onopen = function () {
-                        ws.send('test text send'); // Send the message 'Ping' to the server
-                    };*/
-                    // サーバからのメッセージ受信
-                    ws.onmessage = function (e) {
-                        console.log('Server: ' + e.data);
-                    };
-                }
-
+                xhr.open('POST', http_url);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.send('END');
+            } catch(error) {
+                alert("Send Error");
+                console.log("Send Error");
+                http_disconnect();
+            }
+        }
+        if(checkWSConnect()){
+            try {
                 ws.send('END');
             } catch(error) {
                 alert("Send Error");
                 console.log("Send Error");
-                ws = null;
-                flag_wsconnection = false;
-                document.getElementById("ws_btn").value = "Connect WebSocket";
-                $("#ws_url").prop('disabled', false);
+                ws_disconnect();
             }
         }
     }
@@ -221,9 +343,7 @@ recognition.onend = function() {
 recognition.onresult = function(event) {
     if (typeof(event.results) == 'undefined') {
         console.log("undefined");
-        $("#onoffbutton").val("Start Recognition");
-        recognition.onend = null;
-        recognition.stop();
+        endRecog();
         return;
     }
 
@@ -234,53 +354,24 @@ recognition.onresult = function(event) {
             $("#result_text").val(final_transcript);
             $("#result_conf").val(confidence);
 
-            if(flag_httpconnection) {
+            if(checkHTTPConnect()) {
                 try {
-                    if(xhr == null) {
-                        xhr = new XMLHttpRequest();
-                        xhr.onerror = function(e){
-                            alert("onerror: Send Error");
-                            xhr = null;
-                            flag_httpconnection = false;
-                            document.getElementById("http_btn").value = "Connect";
-                            $("#http_url").prop('disabled', false);
-                        };
-                    }
-
                     xhr.open('POST', http_url);
                     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                     xhr.send(final_transcript);
                 } catch(error) {
                     alert("Send Error");
                     console.log("Send Error");
-                    xhr = null;
-                    flag_httpconnection = false;
-                    document.getElementById("http_btn").value = "Connect";
-                    $("#http_url").prop('disabled', false);
+                    http_disconnect();
                 }
             }
-            else if(flag_wsconnection){
+            if(checkWSConnect()){
                 try {
-                    if(ws == null) {
-                        ws = new WebSocket(ws_url);
-                        // 接続時
-                        /*ws.onopen = function () {
-                            ws.send('test text send'); // Send the message 'Ping' to the server
-                        };*/
-                        // サーバからのメッセージ受信
-                        ws.onmessage = function (e) {
-                            console.log('Server: ' + e.data);
-                        };
-                    }
-
                     ws.send(final_transcript);
                 } catch(error) {
                     alert("Send Error");
                     console.log("Send Error");
-                    ws = null;
-                    flag_wsconnection = false;
-                    document.getElementById("ws_btn").value = "Connect WebSocket";
-                    $("#ws_url").prop('disabled', false);
+                    ws_disconnect();
                 }
             }
         }
@@ -306,98 +397,4 @@ function endRecog() {
     var sel = document.getElementById("select_language");
     sel.disabled = false;
     recognition.stop();
-}
-
-function connect_http(btn){
-    if(btn.value === "Connect HTTP") {
-        btn.value = "Connecting";
-        http_url = document.getElementById('http_url').value.trim();
-
-        // 接続テスト
-        try {
-            xhr = new XMLHttpRequest();
-            xhr.onerror = function(e){
-                alert("onerror: Connect Error");
-                xhr = null;
-                flag_httpconnection = false;
-                btn.value = "Connect HTTP";
-            };
-            xhr.open('GET', http_url);
-            xhr.send(null);
-            xhr.abort();
-
-            flag_httpconnection = true;
-            btn.value = "Disconnect HTTP";
-            $("#http_url").prop('disabled', true);
-        } catch(error) {
-            alert("Connect Error: Check server address");
-            console.log("Connect Error: Check server address");
-            xhr = null;
-            flag_httpconnection = false;
-            btn.value = "Connect HTTP";
-            $("#http_url").prop('disabled', false);
-        }
-    } else {
-        if(xhr != null) {
-            xhr.abort();
-            xhr = null;
-        }
-        flag_httpconnection = false;
-        btn.value = "Connect HTTP";
-        $("#http_url").prop('disabled', false);
-    }
-}
-
-function connect_ws(btn){
-
-    if(btn.value === "Connect WebSocket") {
-        btn.value = "Connecting";
-        ws_url = document.getElementById('ws_url').value.trim();
-
-        // 接続テスト
-        try {
-            ws = new WebSocket(ws_url);
-            // 接続時
-            /*ws.onopen = function () {
-                ws.send('test text send'); // Send the message 'Ping' to the server
-            };*/
-            // サーバからのメッセージ受信
-            ws.onmessage = function (e) {
-                console.log('Server: ' + e.data);
-                if(e.data === "en"){
-                    document.getElementById('select_language').selectedIndex = 1;
-                    updateCountry();
-                    console.log(lang);
-
-                    startButton(event);
-                }
-                else if(e.data === "jp"){
-                    document.getElementById('select_language').selectedIndex = 0;
-                    updateCountry();
-                    console.log(lang);
-
-                    startButton(event);
-                }
-            };
-
-            flag_wsconnection = true;
-            btn.value = "Disconnect WebSocket";
-            $("#ws_url").prop('disabled', true);
-        } catch(error) {
-            alert("Connect Error: Check server address");
-            console.log("Connect Error: Check server address");
-            ws = null;
-            flag_wsconnection = false;
-            btn.value = "Connect WebSocket";
-            $("#ws_url").prop('disabled', false);
-        }
-    } else {
-        if(ws != null){
-            ws.close();
-            ws = null;
-        }
-        flag_wsconnection = false;
-        btn.value = "Connect WebSocket";
-        $("#ws_url").prop('disabled', false);
-    }
 }
