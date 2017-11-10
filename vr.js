@@ -85,12 +85,14 @@ function updateCountry() {
     var index = document.getElementById('select_language').selectedIndex;
     var val = document.getElementById('select_language').options[index].value;
     lang = val;
+    console.log("select lang : " + lang);
 }
-
 //////////
 
 var flag_recognition    = true;
 var flag_vad            = true;
+
+checkBoxCheck();
 
 function checkBoxCheck(){
     flag_recognition    = document.getElementById('recognition').checked;
@@ -102,22 +104,19 @@ function checkBoxCheck(){
         console.log("vad : OK");
     }
 }
-
-checkBoxCheck();
 //////////
 
 var xhr = null;
 var http_url    = "http://127.0.0.1:12000/";
-var ws_url      = "ws://127.0.0.1:24000/ws";
 var flag_httpconnection = false;
-var flag_wsconnection = false;
 
-var recognition = null;
+var ws = null;
+var ws_url      = "ws://127.0.0.1:24000/ws";
+var flag_wsconnection = false;
 
 var final_transcript = '';
 var recognizing = false;
 var ignore_onend = false;
-
 var flag_audiostart = false;
 
 var recognition = new webkitSpeechRecognition();
