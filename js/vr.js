@@ -107,7 +107,7 @@ function checkBoxCheck(){
 //////////
 
 var xhr = null;
-var http_url    = "http://127.0.0.1:12000/";
+var http_url    = "http://127.0.0.1:25000/";
 var flag_httpconnection = false;
 
 var ws = null;
