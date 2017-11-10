@@ -43,6 +43,7 @@
     window.onload = function() {
         manager = (new AudioManager({
             useMicrophone   : true,
+            fps             : 10,
             onEnterFrame    : function() {
                 console.log(Utils.sum(this.analysers.mic.getByteFrequencyData()));
             }
