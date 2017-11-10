@@ -19,10 +19,21 @@
     <h1>Voice Recognition HTTP Client</h1>
 
     <input id="recognition" type="checkbox" onclick="checkBoxCheck()" checked>Recognition<br />
-    ・result
+
+    <table>
+        <tr>
+            <td width="100">・result</td>
+            <td><input type="text" class="solid" readOnly id="result_text"></input></td>
+        </tr>
+        <tr>
+            <td>・condidence</td>
+            <td><input type="text" class="solid" readonly id="result_conf"></input></td>
+        </tr>
+    </table>
+<!--    ・result
     <input type="text" class="solid" readOnly id="result_text"></input><br />
     ・condidence
-    <input type="text" class="solid" readonly id="result_conf"></input><br />
+    <input type="text" class="solid" readonly id="result_conf"></input><br /> -->
     <input type="button" id="onoffbutton" onclick="startButton(event)" value="Start Recognition" /><br /><br />
 
     <input id="vad" type="checkbox" onclick="checkBoxCheck()" checked>VAD<br /><br />
