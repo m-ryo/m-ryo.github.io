@@ -11,13 +11,16 @@
             width:100%;
             line-height:1.25em;
         }
+        textarea.solid{
+            border-style: solid;
+        }
     </style>
 
     <h1>Voice Recognition HTTP Client</h1>
 
     <input id="recognition" type="checkbox" onclick="checkBoxCheck()" checked>Recognition<br />
     ・result<br/>
-    <textarea readOnly id="result_text" rows="5"></textarea><br />
+    <textarea class="solid" readOnly id="result_text" rows="5"></textarea><br />
     <input type="button" id="onoffbutton" onclick="startButton(event)" value="Start Recognition" /><br /><br />
 
     <input id="vad" type="checkbox" onclick="checkBoxCheck()" checked>VAD<br /><br />
@@ -39,7 +42,7 @@
 <script src="./js/vr.js"></script>
 <script src="./js/audioManager.min.js"></script>
 <script>
-    var manager;
+    /*var manager;
     window.onload = function() {
         manager = (new AudioManager({
             useMicrophone   : true,
@@ -48,7 +51,7 @@
                 console.log(Utils.sum(this.analysers.mic.getByteFrequencyData()));
             }
         })).init();
-    };
+    };*/
 </script>
 
 </html>
