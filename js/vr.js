@@ -231,7 +231,8 @@ recognition.onresult = function(event) {
         if (event.results[i].isFinal) {
             final_transcript = event.results[i][0].transcript;
             confidence = event.results[i][0].confidence;
-            $("#result_text").val(final_transcript + "\n\n" + confidence);
+            $("#result_text").val(final_transcript);
+            $("#result_conf").val(confidence);
 
             if(flag_httpconnection) {
                 try {
