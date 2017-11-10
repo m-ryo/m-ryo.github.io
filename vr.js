@@ -78,7 +78,7 @@ for (var i = 0; i < langs.length; i++) {
     option.innerHTML = langs[i][0];
     select.appendChild(option);
 }
-//select_language.selectedIndex = 0;
+
 updateCountry();
 
 function updateCountry() {
