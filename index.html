@@ -19,8 +19,10 @@
     <h1>Voice Recognition HTTP Client</h1>
 
     <input id="recognition" type="checkbox" onclick="checkBoxCheck()" checked>Recognition<br />
-    ・result<br/>
-    <textarea class="solid" readOnly id="result_text" rows="5"></textarea><br />
+    ・result
+    <textarea class="solid" readOnly id="result_text"></textarea><br />
+    ・condidence
+    <textarea class="solid" readonly> condidence </textarea><br />
     <input type="button" id="onoffbutton" onclick="startButton(event)" value="Start Recognition" /><br /><br />
 
     <input id="vad" type="checkbox" onclick="checkBoxCheck()" checked>VAD<br /><br />
