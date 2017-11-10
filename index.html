@@ -21,7 +21,7 @@
 
     <h1>Voice Recognition HTTP Client</h1>
 
-    <input id="recognition" type="checkbox" onclick="checkBoxCheck()" checked>Recognition<br />
+    <input id="recognition" type="checkbox" onclick="checkBoxCheck()" checked><label for="recognition">Recognition</label><br />
 
     <table>
         <tr>
@@ -35,7 +35,7 @@
     </table>
     <input type="button" id="onoffbutton" onclick="startButton(event)" value="Start Recognition" /><br /><br />
 
-    <input id="vad" type="checkbox" onclick="checkBoxCheck()" checked>VAD<br /><br />
+    <input id="vad" type="checkbox" onclick="checkBoxCheck()" checked><label for="vad">VAD</label><br /><br />
 
     ・Language <br />
     <select id="select_language" onchange="updateCountry()"></select><br /><br />
