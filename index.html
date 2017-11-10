@@ -11,7 +11,7 @@
             width:100%;
             line-height:1.25em;
         }
-        textarea.solid{
+        input.solid{
             border-style: solid;
         }
     </style>
@@ -20,9 +20,9 @@
 
     <input id="recognition" type="checkbox" onclick="checkBoxCheck()" checked>Recognition<br />
     ・result
-    <textarea class="solid" readOnly id="result_text"></textarea><br />
+    <input type="text" class="solid" readOnly id="result_text"></input><br />
     ・condidence
-    <textarea class="solid" readonly> condidence </textarea><br />
+    <input type="text" class="solid" readonly id="result_conf"></input><br />
     <input type="button" id="onoffbutton" onclick="startButton(event)" value="Start Recognition" /><br /><br />
 
     <input id="vad" type="checkbox" onclick="checkBoxCheck()" checked>VAD<br /><br />
