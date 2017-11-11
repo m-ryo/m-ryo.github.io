@@ -106,6 +106,28 @@ function checkBoxCheck(){
 }
 //////////
 
+function startButton(event) {
+    if (recognizing) {
+        endRecog();
+        return;
+    }
+    $("#onoffbutton").val("Stop Recognition");
+    var sel = document.getElementById("select_language");
+    sel.disabled = true;
+    final_transcript = '';
+    recognition.lang = lang;
+    recognition.start();
+    ignore_onend = false;
+}
+
+function endRecog() {
+    $("#onoffbutton").val("Start Recognition");
+    var sel = document.getElementById("select_language");
+    sel.disabled = false;
+    recognition.stop();
+}
+////////////
+
 var xhr = null;
 var http_url    = "http://127.0.0.1:25000/";
 
@@ -118,13 +140,13 @@ function http_connect(){
         xhr.onerror = function(e){
             alert("onerror: Connect Error");
             xhr = null;
-            btn.value = "Connect HTTP";
+            document.getElementById('http_btn').value = "Connect HTTP";
         };
         xhr.open('GET', http_url);
         xhr.send(null);
         xhr.abort();
 
-        btn.value = "Disconnect HTTP";
+        document.getElementById('http_btn').value = "Disconnect HTTP";
         $("#http_url").prop('disabled', true);
         return true;
     } catch(error) {
@@ -140,7 +162,7 @@ function http_disconnect(){
         xhr.abort();
         xhr = null;
     }
-    btn.value = "Connect HTTP";
+    document.getElementById('http_btn').value = "Connect HTTP";
     $("#http_url").prop('disabled', false);
 }
 
@@ -168,6 +190,7 @@ function checkHTTPConnect(){
     }
 }
 
+///////////////
 
 var ws = null;
 var ws_url      = "ws://127.0.0.1:24000/ws";
@@ -201,7 +224,7 @@ function ws_connect(){
             }
         };
 
-        btn.value = "Disconnect WebSocket";
+        document.getElementById('ws_btn').value = "Disconnect WebSocket";
         $("#ws_url").prop('disabled', true);
         return true;
     } catch(error) {
@@ -217,7 +240,7 @@ function ws_disconnect(){
         ws.close();
         ws = null;
     }
-    btn.value = "Connect WebSocket";
+    document.getElementById('ws_btn').value = "Connect WebSocket";
     $("#ws_url").prop('disabled', false);
 }
 
@@ -377,24 +400,3 @@ recognition.onresult = function(event) {
         }
     }
 };
-
-function startButton(event) {
-    if (recognizing) {
-        endRecog();
-        return;
-    }
-    $("#onoffbutton").val("Stop Recognition");
-    var sel = document.getElementById("select_language");
-    sel.disabled = true;
-    final_transcript = '';
-    recognition.lang = lang;
-    recognition.start();
-    ignore_onend = false;
-}
-
-function endRecog() {
-    $("#onoffbutton").val("Start Recognition");
-    var sel = document.getElementById("select_language");
-    sel.disabled = false;
-    recognition.stop();
-}
