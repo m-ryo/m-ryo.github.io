@@ -132,19 +132,29 @@ function endRecog() {
     recognition.stop();
 }
 ////////////
-var restartRecog = function(){
-    console.log('start');
-    startButton();
-    setTimeout(tmpstopRecog, 10000);
-}
+var flag_vring = false;
 var flag_vr = false;
+
+var restartRecog = function(){
+    if(flag_vring){
+        flag_vring = false;
+        setTimeout(tmpstopRecog, 2000);
+    }else{
+        console.log('start');
+        startButton();
+        setTimeout(tmpstopRecog, 10000);
+    }
+}
+
 var tmpstopRecog = function(){
     console.log('...');
     if(!flag_vr){
         console.log('stop');
         endRecog();
-        setTimeout(restartRecog, 10);
+    }else{
+        flag_vring = true;
     }
+    setTimeout(restartRecog, 10);
 }
 function setVoive(value){
     if(value > 10000){
