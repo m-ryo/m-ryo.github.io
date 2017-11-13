@@ -119,11 +119,6 @@ function startButton() {
     recognition.lang = lang;
     recognition.start();
     ignore_onend = false;
-    if(flag_first){
-        restartRecog();
-        flag_first = false;
-    }
-
 }
 
 function endRecog() {
@@ -134,14 +129,17 @@ function endRecog() {
 }
 ////////////
 var restartRecog = function(){
-    if(!recognizing){
-        endRecog();
-        startButton();
-        setTimeout(restartRecog, 10000);
-    }
+    startButton();
+    setTimeout(tmpstopRecog, 10000);
 }
 
-
+var tmpstopRecog = function(){
+    if(!recognizing){
+        endRecog();
+        setTimeout(restartRecog, 10);
+    }
+}
+restartRecog();
 //////////
 var xhr = null;
 var http_url    = "http://127.0.0.1:25000/";
