@@ -119,6 +119,10 @@ function startButton() {
     recognition.lang = lang;
     recognition.start();
     ignore_onend = false;
+    if(flag_first){
+        flag_first = false;
+        tmpstopRecog();
+    }
 }
 
 function endRecog() {
