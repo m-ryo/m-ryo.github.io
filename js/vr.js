@@ -134,6 +134,7 @@ var restartRecog = function(){
         setTimeout(restartRecog, 10000);
     }
 }
+startButton();
 restartRecog();
 
 //////////
