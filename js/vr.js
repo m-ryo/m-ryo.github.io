@@ -105,6 +105,7 @@ function checkBoxCheck(){
     }
 }
 //////////
+var flag_first = true;
 
 function startButton() {
     if (recognizing) {
@@ -118,6 +119,11 @@ function startButton() {
     recognition.lang = lang;
     recognition.start();
     ignore_onend = false;
+    if(flag_first){
+        restartRecog();
+        flag_first = false;
+    }
+
 }
 
 function endRecog() {
@@ -134,8 +140,7 @@ var restartRecog = function(){
         setTimeout(restartRecog, 10000);
     }
 }
-startButton();
-restartRecog();
+
 
 //////////
 var xhr = null;
