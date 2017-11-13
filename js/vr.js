@@ -148,10 +148,10 @@ var tmpstopRecog = function(){
 }
 function setVoive(value){
     if(value > 10000){
-        console.log('get');
+        //console.log('get');
         flag_vr = true;
     }else{
-        console.log('not get');
+        //console.log('not get');
         flag_vr = false;
     }
 }
