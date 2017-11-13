@@ -127,7 +127,16 @@ function endRecog() {
     recognition.stop();
 }
 ////////////
+var restartRecog = function(){
+    if(!recognizing){
+        endRecog();
+        startButton();
+        setTimeout(restartRecog, 10000);
+    }
+}
+restartRecog();
 
+//////////
 var xhr = null;
 var http_url    = "http://127.0.0.1:25000/";
 
