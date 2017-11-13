@@ -49,21 +49,36 @@
     <input type="button" id="ws_btn" onclick="ws_set(this)" value="Connect WebSocket" /><br /><br /><br />
 
     ・<a href="https://github.com/m-ryo/m-ryo.github.io">Source Code (Git)</a>
+
+    <!-- Google  -->
+<form method=get action="http://www.google.co.jp/search">
+<table bgcolor="#FFFFFF"><tr><td>
+<a href="http://www.google.co.jp/">
+<img src="http://www.google.com/logos/Logo_40wht.gif" border="0" alt="Google" align="absmiddle"></a>
+<input type=text name=q size=31 maxlength=255 value="">
+<input type=hidden name=ie value=Shift_JIS>
+<input type=hidden name=oe value=Shift_JIS>
+<input type=hidden name=hl value="ja">
+<input type=submit name=btnG value="Google 検索">
+</td></tr></table>
+</form>
+<!-- Google -->
 </body>
 
 <script src="./js/vr.js"></script>
 <script src="./js/audioManager.min.js"></script>
 <script>
-    /*var manager;
+    var manager;
     window.onload = function() {
         manager = (new AudioManager({
             useMicrophone   : true,
             fps             : 10,
             onEnterFrame    : function() {
-                console.log(Utils.sum(this.analysers.mic.getByteFrequencyData()));
+                //console.log(Utils.sum(this.analysers.mic.getByteFrequencyData()));
+                setVoive(Utils.sum(this.analysers.mic.getByteFrequencyData()));
             }
         })).init();
-    };*/
+    };
 </script>
 
 </html>

@@ -137,13 +137,22 @@ var restartRecog = function(){
     startButton();
     setTimeout(tmpstopRecog, 10000);
 }
-
+var flag_vr = false;
 var tmpstopRecog = function(){
     console.log('...');
-    if(!recognizing){
+    if(!flag_vr){
         console.log('stop');
         endRecog();
         setTimeout(restartRecog, 10);
+    }
+}
+function setVoive(value){
+    if(value > 10000){
+        console.log('get');
+        flag_vr = true;
+    }else{
+        console.log('not get');
+        flag_vr = false;
     }
 }
 
