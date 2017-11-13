@@ -314,7 +314,7 @@ recognition.onstart = function() {
     }
 };
 
-recognition.onsoundstart = function() {
+/*recognition.onsoundstart = function() {
     console.log('Audio capturing started');
     if(flag_vad){
         if(checkHTTPConnect()){
@@ -364,7 +364,7 @@ recognition.onsoundend = function() {
             }
         }
     }
-}
+}*/
 
 recognition.onerror = function(event) {
     if (event.error == 'no-speech') {
