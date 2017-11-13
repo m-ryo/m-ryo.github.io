@@ -299,6 +299,7 @@ recognition.continuous = true;
 recognition.interimResults = false;
 
 recognition.onstart = function() {
+    console.log('on start');
     if(flag_recognition){
         recognizing = true;
     }
@@ -374,6 +375,7 @@ recognition.onerror = function(event) {
 };
 
 recognition.onend = function() {
+    console.log('on end');
     recognizing = false;
     if (ignore_onend) {
         return;
@@ -384,6 +386,7 @@ recognition.onend = function() {
 };
 
 recognition.onresult = function(event) {
+    console.log('on result');
     if (typeof(event.results) == 'undefined') {
         console.log("undefined");
         endRecog();
