@@ -143,7 +143,7 @@ var tmpstopRecog = function(){
         setTimeout(restartRecog, 10);
     }
 }
-restartRecog();
+//restartRecog();
 //////////
 var xhr = null;
 var http_url    = "http://127.0.0.1:25000/";
