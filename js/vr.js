@@ -106,7 +106,7 @@ function checkBoxCheck(){
 }
 //////////
 
-function startButton(event) {
+function startButton() {
     if (recognizing) {
         endRecog();
         return;
@@ -213,14 +213,14 @@ function ws_connect(){
                 updateCountry();
                 console.log(lang);
 
-                startButton(event);
+                startButton();
             }
             else if(e.data === "jp"){
                 document.getElementById('select_language').selectedIndex = 0;
                 updateCountry();
                 console.log(lang);
 
-                startButton(event);
+                startButton();
             }
         };
 
