@@ -133,17 +133,20 @@ function endRecog() {
 }
 ////////////
 var restartRecog = function(){
+    console.log('start');
     startButton();
     setTimeout(tmpstopRecog, 10000);
 }
 
 var tmpstopRecog = function(){
+    console.log('...');
     if(!recognizing){
+        console.log('stop');
         endRecog();
         setTimeout(restartRecog, 10);
     }
 }
-//restartRecog();
+
 //////////
 var xhr = null;
 var http_url    = "http://127.0.0.1:25000/";
