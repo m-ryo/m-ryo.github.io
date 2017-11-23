@@ -35,7 +35,7 @@
     </table>
     <input type="button" id="onoffbutton" onclick="startButton()" value="Start Recognition" /><br /><br />
 
-    <input id="vad" type="checkbox" onclick="checkBoxCheck()" checked><label for="vad">VAD</label><br /><br />
+    <!-- <input id="vad" type="checkbox" onclick="checkBoxCheck()" checked><label for="vad">VAD</label><br /><br /> -->
 
     ・Language <br />
     <select id="select_language" onchange="updateCountry()"></select><br /><br />
@@ -68,8 +68,8 @@
 <script src="./js/vr.js"></script>
 <script src="./js/audioManager.min.js"></script>
 <script>
-    var manager;
-    window.onload = function() {
+    var manager = null;
+    /*window.onload = function() {
         manager = (new AudioManager({
             useMicrophone   : true,
             fps             : 10,
@@ -78,7 +78,23 @@
                 setVoive(Utils.sum(this.analysers.mic.getByteFrequencyData()));
             }
         })).init();
-    };
+    };*/
+    function start(){
+        if(manager == null){
+            manager = (new AudioManager({
+                useMicrophone   : true,
+                fps             : 10,
+                onEnterFrame    : function() {
+                    //console.log(Utils.sum(this.analysers.mic.getByteFrequencyData()));
+                    setVoive(Utils.sum(this.analysers.mic.getByteFrequencyData()));
+                }
+            }));
+        }
+        manager.startLoop();
+    }
+    function stop(){
+        manager.stopLoop();
+    }
 </script>
 
 </html>

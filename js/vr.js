@@ -96,13 +96,13 @@ checkBoxCheck();
 
 function checkBoxCheck(){
     flag_recognition    = document.getElementById('recognition').checked;
-    flag_vad            = document.getElementById('vad').checked;
+    //flag_vad            = document.getElementById('vad').checked;
     if(flag_recognition){
         console.log("recognition : OK");
     }
-    if(flag_vad){
+    /*if(flag_vad){
         console.log("vad : OK");
-    }
+    }*/
 }
 //////////
 var flag_first = true;
@@ -119,10 +119,10 @@ function startButton() {
     recognition.lang = lang;
     recognition.start();
     ignore_onend = false;
-    if(flag_first){
+    /*if(flag_first){
         flag_first = false;
         tmpstopRecog();
-    }
+    }*/
 }
 
 function endRecog() {
@@ -132,7 +132,7 @@ function endRecog() {
     recognition.stop();
 }
 ////////////
-var flag_vring = false;
+/*var flag_vring = false;
 var flag_vr = false;
 
 var restartRecog = function(){
@@ -164,7 +164,7 @@ function setVoive(value){
         //console.log('not get');
         flag_vr = false;
     }
-}
+}*/
 
 //////////
 var xhr = null;
@@ -260,6 +260,9 @@ function ws_connect(){
                 console.log(lang);
 
                 startButton();
+            }
+            else if(e.data === "stop"){
+                endRecog();
             }
         };
 
