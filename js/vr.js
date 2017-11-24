@@ -314,6 +314,7 @@ function checkWSConnect(){
 var final_transcript = '';
 var recognizing = false;
 var ignore_onend = false;
+var continue_flag = false;
 
 var recognition = new webkitSpeechRecognition();
 
@@ -443,5 +444,8 @@ recognition.onresult = function(event) {
                 }
             }
         }
+    }
+    if(!continue_flag){
+        endRecog();
     }
 };
