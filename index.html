@@ -71,16 +71,16 @@
 <script src="./js/audioManager.min.js"></script>
 <script>
     var manager = null;
-    /*window.onload = function() {
+    window.onload = function() {
         manager = (new AudioManager({
             useMicrophone   : true,
             fps             : 10,
             onEnterFrame    : function() {
-                //console.log(Utils.sum(this.analysers.mic.getByteFrequencyData()));
-                setVoive(Utils.sum(this.analysers.mic.getByteFrequencyData()));
+                console.log(Utils.sum(this.analysers.mic.getByteFrequencyData()));
+                //setVoive(Utils.sum(this.analysers.mic.getByteFrequencyData()));
             }
         })).init();
-    };*/
+    };
     function start(){
         if(manager == null){
             console.log("manager");
