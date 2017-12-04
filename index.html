@@ -34,6 +34,8 @@
         </tr>
     </table>
     <input type="button" id="onoffbutton" onclick="startButton()" value="Start Recognition" /><br /><br />
+    <input type="button" id="" onclick="start()" value="Start VAD" />
+    <input type="button" id="" onclick="stop()" value="Stop VAD" />
 
     <!-- <input id="vad" type="checkbox" onclick="checkBoxCheck()" checked><label for="vad">VAD</label><br /><br /> -->
 
@@ -85,7 +87,7 @@
                 useMicrophone   : true,
                 fps             : 10,
                 onEnterFrame    : function() {
-                    //console.log(Utils.sum(this.analysers.mic.getByteFrequencyData()));
+                    console.log(Utils.sum(this.analysers.mic.getByteFrequencyData()));
                     setVoive(Utils.sum(this.analysers.mic.getByteFrequencyData()));
                 }
             }));
