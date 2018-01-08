@@ -124,7 +124,7 @@ function endRecog() {
 function restartRecog() {
     endRecog();
     console.log('restart recognition.');
-    setTimeout(startButton(), 20);
+    setTimeout(startButton(), 100);
 }
 ////////////
 var xhr = null;
