@@ -122,9 +122,8 @@ function endRecog() {
 }
 
 function restartRecog() {
-    endRecog();
     console.log('restart recognition.');
-    setTimeout(startButton(), 100);
+    setTimeout(startButton(), 50);
 }
 ////////////
 var xhr = null;
@@ -290,17 +289,18 @@ recognition.onstart = function() {
 recognition.onerror = function(event) {
     if (event.error == 'no-speech') {
         ignore_onend = true;
-        console.log("no-speech")
-        restartRecog();
+        console.log("no-speech");
+        endRecog();
+        setTimeout(restartRecog(),50);
     }
     if (event.error == 'audio-capture') {
         ignore_onend = true;
-        console.log("audio-capture")
+        console.log("audio-capture");
     }
     if (event.error == 'not-allowed') {
         ignore_onend = true;
         alert("Allow access to the microphone");
-        console.log("not-allowed")
+        console.log("not-allowed");
         endRecog();
     }
 };
