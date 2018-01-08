@@ -100,6 +100,9 @@ function checkBoxCheck(){
     }
 }
 //////////
+var flag_restart = false;
+var flag_restart_check = false;
+
 function startButton() {
     if (recognizing) {
         endRecog();
@@ -112,6 +115,7 @@ function startButton() {
     recognition.lang = lang;
     recognition.start();
     ignore_onend = false;
+    flag_restart_check = true;
 }
 
 function endRecog() {
@@ -119,11 +123,22 @@ function endRecog() {
     var sel = document.getElementById("select_language");
     sel.disabled = false;
     recognition.stop();
+    flag_restart_check = false;
 }
 
 function restartRecog() {
-    console.log('restart recognition.');
-    startButton();
+    if(flag_restart){
+        console.log('restart recognition.');
+        startButton();
+    }
+}
+
+function restart(){
+    while(true){
+        if(flag_restart_check){
+            setTimeout(restartRecog(), 100);
+        }
+    }
 }
 ////////////
 var xhr = null;
@@ -291,7 +306,7 @@ recognition.onerror = function(event) {
         ignore_onend = true;
         console.log("no-speech");
         endRecog();
-        setTimeout(restartRecog(),200);
+        flag_restart = true;
     }
     if (event.error == 'audio-capture') {
         ignore_onend = true;
