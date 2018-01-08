@@ -101,7 +101,6 @@ function checkBoxCheck(){
 }
 //////////
 var flag_restart = false;
-var flag_restart_check = false;
 
 function startButton() {
     if (recognizing) {
@@ -115,7 +114,6 @@ function startButton() {
     recognition.lang = lang;
     recognition.start();
     ignore_onend = false;
-    flag_restart_check = true;
 }
 
 function endRecog() {
@@ -123,7 +121,6 @@ function endRecog() {
     var sel = document.getElementById("select_language");
     sel.disabled = false;
     recognition.stop();
-    flag_restart_check = false;
 }
 
 function restartRecog() {
@@ -137,10 +134,11 @@ function restartRecog() {
 function restart(){
     while(true){
         if(flag_restart){
-            setTimeout(restartRecog(), 100);
+            setTimeout(restartRecog(), 1000);
         }
     }
 }
+restart();
 ////////////
 var xhr = null;
 var http_url    = "http://127.0.0.1:25000/";
