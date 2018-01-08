@@ -34,8 +34,9 @@
         </tr>
     </table>
     <input type="button" id="onoffbutton" onclick="startButton()" value="Start Recognition" /><br /><br />
-    <input type="button" id="" onclick="start()" value="Start VAD" />
-    <input type="button" id="" onclick="stop()" value="Stop VAD" /><br /><br />
+
+<!--    <input type="button" id="" onclick="start()" value="Start VAD" />
+    <input type="button" id="" onclick="stop()" value="Stop VAD" /><br /><br /> -->
 
     <!-- <input id="vad" type="checkbox" onclick="checkBoxCheck()" checked><label for="vad">VAD</label><br /><br /> -->
 
@@ -51,27 +52,13 @@
     <input type="button" id="ws_btn" onclick="ws_set(this)" value="Connect WebSocket" /><br /><br /><br />
 
     ・<a href="https://github.com/m-ryo/m-ryo.github.io">Source Code (Git)</a>
-
-    <!-- Google  -->
-<!-- <form method=get action="http://www.google.co.jp/search">
-<table bgcolor="#FFFFFF"><tr><td>
-<a href="http://www.google.co.jp/">
-<img src="http://www.google.com/logos/Logo_40wht.gif" border="0" alt="Google" align="absmiddle"></a>
-<input type=text name=q size=31 maxlength=255 value="">
-<input type=hidden name=ie value=Shift_JIS>
-<input type=hidden name=oe value=Shift_JIS>
-<input type=hidden name=hl value="ja">
-<input type=submit name=btnG value="Google 検索">
-</td></tr></table>
-</form> -->
-<!-- Google -->
 </body>
 
 <script src="./js/vr.js"></script>
 <script src="./js/audioManager.min.js"></script>
 <script>
     var manager = null;
-    window.onload = function() {
+    /*window.onload = function() {
         manager = (new AudioManager({
             useMicrophone   : true,
             fps             : 10,
@@ -99,7 +86,7 @@
     function stop(){
         manager.stopLoop();
         console.log("test stop");
-    }
+    }*/
 </script>
 
 </html>

@@ -90,23 +90,16 @@ function updateCountry() {
 //////////
 
 var flag_recognition    = true;
-var flag_vad            = true;
 
 checkBoxCheck();
 
 function checkBoxCheck(){
     flag_recognition    = document.getElementById('recognition').checked;
-    //flag_vad            = document.getElementById('vad').checked;
     if(flag_recognition){
         console.log("recognition : OK");
     }
-    /*if(flag_vad){
-        console.log("vad : OK");
-    }*/
 }
 //////////
-var flag_first = true;
-
 function startButton() {
     if (recognizing) {
         endRecog();
@@ -119,10 +112,6 @@ function startButton() {
     recognition.lang = lang;
     recognition.start();
     ignore_onend = false;
-    /*if(flag_first){
-        flag_first = false;
-        tmpstopRecog();
-    }*/
 }
 
 function endRecog() {
@@ -131,42 +120,13 @@ function endRecog() {
     sel.disabled = false;
     recognition.stop();
 }
+
+function restartRecog() {
+    endRecog();
+    console.log('restart recognition.');
+    setTimeout(startButton(), 20);
+}
 ////////////
-/*var flag_vring = false;
-var flag_vr = false;
-
-var restartRecog = function(){
-    if(flag_vring){
-        flag_vring = false;
-        setTimeout(tmpstopRecog, 2000);
-    }else{
-        console.log('start');
-        startButton();
-        setTimeout(tmpstopRecog, 10000);
-    }
-}
-
-var tmpstopRecog = function(){
-    console.log('...');
-    if(!flag_vr){
-        console.log('stop');
-        endRecog();
-    }else{
-        flag_vring = true;
-    }
-    setTimeout(restartRecog, 10);
-}
-function setVoive(value){
-    if(value > 10000){
-        //console.log('get');
-        flag_vr = true;
-    }else{
-        //console.log('not get');
-        flag_vr = false;
-    }
-}*/
-
-//////////
 var xhr = null;
 var http_url    = "http://127.0.0.1:25000/";
 
@@ -232,7 +192,7 @@ function checkHTTPConnect(){
 ///////////////
 
 var ws = null;
-var ws_url      = "ws://127.0.0.1:24000/ws";
+var ws_url = "ws://127.0.0.1:24000/ws";
 
 function ws_connect(){
     ws_url = document.getElementById('ws_url').value.trim();
@@ -241,9 +201,9 @@ function ws_connect(){
     try {
         ws = new WebSocket(ws_url);
         // 接続時
-        /*ws.onopen = function () {
-            ws.send('test text send'); // Send the message 'Ping' to the server
-        };*/
+        //ws.onopen = function () {
+        //    ws.send('test text send'); // Send the message 'Ping' to the server
+        //};
         // サーバからのメッセージ受信
         ws.onmessage = function (e) {
             console.log('Server: ' + e.data);
@@ -251,17 +211,16 @@ function ws_connect(){
                 document.getElementById('select_language').selectedIndex = 1;
                 updateCountry();
                 console.log(lang);
-
                 startButton();
             }
             else if(e.data === "jp"){
                 document.getElementById('select_language').selectedIndex = 0;
                 updateCountry();
                 console.log(lang);
-
                 startButton();
             }
             else if(e.data === "stop"){
+                console.log('Stop recognition');
                 endRecog();
             }
         };
@@ -328,62 +287,11 @@ recognition.onstart = function() {
     }
 };
 
-/*recognition.onsoundstart = function() {
-    console.log('Audio capturing started');
-    if(flag_vad){
-        if(checkHTTPConnect()){
-            try {
-                xhr.open('POST', http_url);
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                xhr.send('START');
-            } catch(error) {
-                alert("Send Error");
-                console.log("Send Error");
-                http_disconnect();
-            }
-        }
-        if(checkWSConnect()){
-            try {
-                ws.send('START');
-            } catch(error) {
-                alert("Send Error");
-                console.log("Send Error");
-                ws_disconnect();
-            }
-        }
-    }
-}
-
-recognition.onsoundend = function() {
-    console.log('Audio capturing ended');
-    if(flag_vad){
-        if(checkHTTPConnect()){
-            try {
-                xhr.open('POST', http_url);
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                xhr.send('END');
-            } catch(error) {
-                alert("Send Error");
-                console.log("Send Error");
-                http_disconnect();
-            }
-        }
-        if(checkWSConnect()){
-            try {
-                ws.send('END');
-            } catch(error) {
-                alert("Send Error");
-                console.log("Send Error");
-                ws_disconnect();
-            }
-        }
-    }
-}*/
-
 recognition.onerror = function(event) {
     if (event.error == 'no-speech') {
         ignore_onend = true;
         console.log("no-speech")
+        restartRecog();
     }
     if (event.error == 'audio-capture') {
         ignore_onend = true;
