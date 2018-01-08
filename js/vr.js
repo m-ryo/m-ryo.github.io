@@ -124,21 +124,15 @@ function endRecog() {
 }
 
 function restartRecog() {
-    //if(flag_restart){
-        console.log('restart recognition.');
-        startButton();
-        flag_restart = false;
-    //}
+    console.log('restart recognition.');
+    startButton();
+    flag_restart = false;
 }
 
 function restart(){
-    while(true){
-        if(flag_restart){
-            setTimeout(restartRecog(), 1000);
-        }
-    }
+    setTimeout(restartRecog(), 100);
 }
-restart();
+//restart();
 ////////////
 var xhr = null;
 var http_url    = "http://127.0.0.1:25000/";
@@ -322,6 +316,9 @@ recognition.onerror = function(event) {
 recognition.onend = function() {
     console.log('on end');
     recognizing = false;
+    if(flag_restart){
+        restart();
+    }
     if (ignore_onend) {
         return;
     }
