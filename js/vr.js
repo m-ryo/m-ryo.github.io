@@ -123,7 +123,7 @@ function endRecog() {
 
 function restartRecog() {
     console.log('restart recognition.');
-    setTimeout(startButton(), 50);
+    startButton();
 }
 ////////////
 var xhr = null;
@@ -291,7 +291,7 @@ recognition.onerror = function(event) {
         ignore_onend = true;
         console.log("no-speech");
         endRecog();
-        setTimeout(restartRecog(),50);
+        setTimeout(restartRecog(),200);
     }
     if (event.error == 'audio-capture') {
         ignore_onend = true;
