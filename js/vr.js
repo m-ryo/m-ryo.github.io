@@ -125,14 +125,9 @@ function endRecog() {
 
 function restartRecog() {
     console.log('restart recognition.');
-    startButton();
+    setTimeout(startButton(), 20);
     flag_restart = false;
 }
-
-function restart(){
-    setTimeout(restartRecog(), 100);
-}
-//restart();
 ////////////
 var xhr = null;
 var http_url    = "http://127.0.0.1:25000/";
@@ -317,7 +312,7 @@ recognition.onend = function() {
     console.log('on end');
     recognizing = false;
     if(flag_restart){
-        restart();
+        restartRecog();
     }
     if (ignore_onend) {
         return;
