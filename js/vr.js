@@ -127,15 +127,16 @@ function endRecog() {
 }
 
 function restartRecog() {
-    if(flag_restart){
+    //if(flag_restart){
         console.log('restart recognition.');
         startButton();
-    }
+        flag_restart = false;
+    //}
 }
 
 function restart(){
     while(true){
-        if(flag_restart_check){
+        if(flag_restart){
             setTimeout(restartRecog(), 100);
         }
     }
