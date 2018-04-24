@@ -8,4 +8,4 @@ If you start voice recognition, please push start button or send "en" command or
 If you stop voice recognition, please push stop button or send "stop" command from web socket server.
 
 WebSocketServer.py
-	version : python 3.4
+- version : python 3.4
