@@ -5,6 +5,15 @@
 </head>
 
 <body>
-    <h2>TEST</h2>
+<script>
+var m = require('mitsuku-api')();
+
+m.send('hello world')
+  .then(function(response){
+    console.log(response);
+  });
+</script>
+
+<h2>TEST</h2>
 </body>
 </html>
